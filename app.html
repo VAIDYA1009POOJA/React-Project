@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>React Project</title>
+    <script src="https://fb.me/react-0.14.7.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+    <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="count.css">
+</head>
+<body>
+<div id="app"></div>
+<div class="container">
+    <ul id="todosList"></ul>
+    <div>
+        <input type="text" placeholder="Enter a task" id="todos">
+    </div>
+    <button class='btn btn-green' id="new">New</button>
+    <button class='btn btn-blue' id="delete">Delete</button>
+    <button class='btn btn-red' id="delete_all">Delete All</button>
+</div>
+<script type="text/babel">
+    class Counter extends React.Component {
+        constructor(props) {
+            super(props);
+            console.log(this.props);
+            this.state = {count: 0}
+            this.click = this.click.bind(this);
+            this.incrementCount = this.incrementCount.bind(this);
+        };
+        incrementCount(value) {
+            this.setState({
+                count: this.state.count + value
+            })
+        };
+
+        click() {
+            alert("Clicked");
+            console.log("Clicked");
+        };
+
+        render() {
+            return (
+                    <div className="container">
+                        <h1>Count : {this.state.count}</h1>
+                        <Button style="btn blue-btn" clickHandler={() => this.incrementCount(this.props.valueOne)} value={this.props.valueOne} text={`${this.props.text} ${this.props.valueOne}`}/>
+                        <Button style="btn green-btn" text={`${this.props.text} ${this.props.valueTwo}`}
+                                value={this.props.valueTwo}
+                                clickHandler={() => this.incrementCount(this.props.valueTwo)}/>
+                        <Button style="btn purple-btn" text={`${this.props.text} ${this.props.valueThree}`}
+                                value={this.props.valueThree}
+                                clickHandler={() => this.incrementCount(this.props.valueThree)}/>
+                        <Button style="btn red-btn" text="Alert!" clickHandler={this.click}/>
+                    </div>
+            )
+        };
+    };
+    Counter.defaultProps = {
+        valueOne: 1,
+        valueTwo: 5,
+        valueThree: 10,
+        text: "Hello"
+    };
+    /*Counter.propTypes = {
+        text : React.PropTypes.string
+    }*/
+    const Button = (props) => {
+        return (
+                <button className={props.style} value={props.value} onClick={props.clickHandler}>{props.text}</button>
+        )
+    };
+    Button.propTypes = {
+        text:React.PropTypes.string,
+        style:React.PropTypes.string,
+        value:React.PropTypes.number,
+        clickHandler:React.PropTypes.func.isRequired
+    };
+    ReactDOM.render(<Counter/>,document.getElementById('app'));
+</script>
+<script src="./index.js"></script>
+</body>
+</html>
